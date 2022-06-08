@@ -2,14 +2,33 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ProblemaDaRainha {
-
+    //  Esse metodo é para percorrer o tabuleiro final
+    //  e salvar em uma lista de tabuleiros
+    public static void SalvarTabuleiro(String[][] tabuleiro, List<List<String>> todostabuleiros) {
+        String fileira = ""; 
+        List<String> novoTabuleiro = new ArrayList<>();
+       
+        for(int i=0; i<tabuleiro.length; i++) {
+            fileira = "";
+            for(int j=0; j<tabuleiro[0].length; j++) {
+                if(tabuleiro[i][j] == " R ")
+                    fileira += " R ";
+                else
+                    fileira += " . ";
+            }
+            novoTabuleiro.add(fileira);
+        }
+       
+        todostabuleiros.add(novoTabuleiro);
+    }
+    
     //   .   .   .
     //   .   R   .
     //   .   .   .
     //  Não pode existir nenhuma Rainha aonde a Rainha pode 
     //  realizar seus movimentos (horizontal, vertical, diagonais)
     //  No caso do tabuleiro acima, não pode existir em nenhum lugar aonde tem "."
-    public static boolean procuraRainhas(int fileira, int coluna, String[][] tabuleiro) {
+    public static boolean ProcuraRainhas(int fileira, int coluna, String[][] tabuleiro) {
         //horizontal
         for(int j=0; j<tabuleiro.length; j++) 
             if(tabuleiro[fileira][j] == " R ") return false;
@@ -41,55 +60,31 @@ public class ProblemaDaRainha {
         return true;
     }
    
-    //  Esse metodo é para percorrer o tabuleiro final
-    //  e salvar em uma lista de tabuleiros
-    public static void salvartabuleiro(String[][] tabuleiro, List<List<String>> todostabuleiros) {
-        String fileira = ""; 
-        List<String> novoTabuleiro = new ArrayList<>();
-       
-        for(int i=0; i<tabuleiro.length; i++) {
-            fileira = "";
-            for(int j=0; j<tabuleiro[0].length; j++) {
-                if(tabuleiro[i][j] == " R ")
-                    fileira += " R ";
-                else
-                    fileira += " . ";
-            }
-            novoTabuleiro.add(fileira);
-        }
-       
-        todostabuleiros.add(novoTabuleiro);
-    }
 
-   // Método ajudante é para chamar o metodo procuraRainhas
+   // Método ResolverProblemaRainhas é para chamar o metodo ProcuraRainhas
    // e adicionar Rainhas e espaços vazios
-    public static void ajudante(String[][] tabuleiro, List<List<String>> todostabuleiros, int coluna) {
+    public static void ResolverProblemaRainhas(String[][] tabuleiro, List<List<String>> todostabuleiros, int coluna) {
         if(coluna == tabuleiro.length) { // caso a coluna seja do tamanho do tabuleiro, salva o tabuleiro e retorna
-            salvartabuleiro(tabuleiro, todostabuleiros);
+            SalvarTabuleiro(tabuleiro, todostabuleiros);
             return;
         }
        
         for(int fileira=0; fileira < tabuleiro.length; fileira++) { // faz um loop em cada fileira, procurando passar em todos espaços do tabuleiro, caso não exista uma rainha no "range" de uma outra rainha, uma rainha é adicionada e é feita uma chamada recursiva(indo pra proxima coluna) , após isso é adicionado "." aonde não existe rainha.
-            if(procuraRainhas(fileira, coluna, tabuleiro)) {
+            if(ProcuraRainhas(fileira, coluna, tabuleiro)) {
                 tabuleiro[fileira][coluna] = " R ";
-                ajudante(tabuleiro, todostabuleiros, coluna+1);
+                ResolverProblemaRainhas(tabuleiro, todostabuleiros, coluna+1);
                 tabuleiro[fileira][coluna] = " . ";
             }
         }
     }
    
-    public static List<List<String>> resolverProblemaDasRainhas(int n) {
-        List<List<String>> todostabuleiros = new ArrayList<>();
-        String[][] tabuleiro = new String[n][n];
-       
-        ajudante(tabuleiro, todostabuleiros, 0);
-        return todostabuleiros;
-    }
-
-
     public static void main(String[] args) {
-        List<List<String>> tabuleiro = resolverProblemaDasRainhas(8);
-        for(List<String> a : tabuleiro) {
+        int tamTabuleiro = 8; 
+        List<List<String>> todosTabuleiros = new ArrayList<>();
+
+        ResolverProblemaRainhas(new String[tamTabuleiro][tamTabuleiro], todosTabuleiros, 0);
+        
+        for(List<String> a : todosTabuleiros) {
             System.out.println("Tabuleiro:");
             for(String b : a){
                 System.out.println(b);

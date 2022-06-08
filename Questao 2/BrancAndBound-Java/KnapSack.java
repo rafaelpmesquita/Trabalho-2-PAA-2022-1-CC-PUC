@@ -4,18 +4,18 @@ import java.util.List;
 public class KnapSack {
 
     //troca os valores de posição no array.
-    static Item[] swap(Item[] arr, int i, int j){
+    static Item[] Swap(Item[] arr, int i, int j){
         Item aux = arr[i];
         arr[i] = arr[j] ;
         arr[j]= aux;
         return arr;
     }
     //bubbleSort para ordenar o array de acordo com o valor/peso.
-    static Item[] sort(Item arr[],int n){
+    static Item[] Sort(Item arr[],int n){
         for (int i = (n - 1); i > 0; i--) {
             for (int j = 0; j < i; j++) {
                 if ((double)arr[j].getValue() / arr[j].getWeight() < (double)arr[j+1].getValue() / arr[j+1].getWeight()) {
-                   arr = swap(arr, j, j+1);
+                   arr = Swap(arr, j, j+1);
                 }
             }
         }
@@ -50,9 +50,9 @@ public class KnapSack {
     }
 
 
-    static int knapSack(int W, Item arr[], int n){
+    static int Mochila(int W, Item arr[], int n){
         //ordena com base no valor por peso
-        arr= sort(arr,arr.length);
+        arr= Sort(arr,arr.length);
 
         //Lista para atravessar os nós e inicializa o nó u com os valores passados no construtor
         List<Node> Q = new ArrayList<Node>();
@@ -132,7 +132,7 @@ public class KnapSack {
 
         Item arr[] = {a,b,c,d,e,f,g,h,i,j};
         int n = arr.length;
-        System.out.println("MaxProfit = " + knapSack(W,arr,n));
+        System.out.println("MaxProfit = " + Mochila(W,arr,n));
     }
 
 }
