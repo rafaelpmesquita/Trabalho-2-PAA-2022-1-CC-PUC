@@ -1,7 +1,7 @@
 import java.util.ArrayList;
 import java.util.List;
 
-public class BranchAndBound {
+public class KnapSack {
 
     //troca os valores de posição no array.
     static Item[] swap(Item[] arr, int i, int j){
@@ -103,7 +103,7 @@ public class BranchAndBound {
             //seta o maior Bound para V
             v.setBound(Bound(v,n,W,arr));
 
-            //faz a mesma verificacao que a anterior
+            //faz a mesma verificacao que a anterior    
             if(v.getBound() > maxProfit){
                 Node c = new Node(v.getLevel(), v.getProfit(),v.getBound(), v.getWeight());
                 Q.add(c);
