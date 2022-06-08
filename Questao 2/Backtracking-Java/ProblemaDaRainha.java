@@ -79,6 +79,8 @@ public class ProblemaDaRainha {
     }
    
     public static void main(String[] args) {
+        double comecoTempo = System.currentTimeMillis();
+
         int tamTabuleiro = 8; 
         List<List<String>> todosTabuleiros = new ArrayList<>();
 
@@ -91,6 +93,9 @@ public class ProblemaDaRainha {
             }
             System.out.println();
         }
+        double fimTempo = System.currentTimeMillis();
+        double tempoTotal = (fimTempo - comecoTempo) / 1000;//TimeUnit.MILLISECONDS.toSeconds(fimTempo - comecoTempo);
+        System.out.println("Tempo = " + tempoTotal);
     }
  }
  
