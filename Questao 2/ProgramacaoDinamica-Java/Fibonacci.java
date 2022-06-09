@@ -1,4 +1,6 @@
 
+
+//estou usando long para receber o valor do fibonacci, caso queira um numero muito alto, o valor não vai funcionar por passar a faixa do long
 public class Fibonacci{
     public static long fibonacci(int n){ 
         long memo[] = new long[n+1];
