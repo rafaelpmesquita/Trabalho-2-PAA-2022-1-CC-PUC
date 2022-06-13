@@ -1,6 +1,6 @@
 public class MenorCaminho {
 
-	static final int V = 9;
+	public static int V = 9;
 
 	static int DistanciaMinima(int distancia[], Boolean passo[])
 	{
@@ -44,7 +44,7 @@ public class MenorCaminho {
 	public static void main(String[] args)
 	{
         double comecoTempo = System.currentTimeMillis();
-		int grafo[][] = new int[][] {
+		int grafo1[][] = new int[][] {
              { 0, 4, 0, 0, 0, 0, 0, 8, 0 },
 			 { 4, 0, 8, 0, 0, 0, 0, 11, 0 },
 	         { 0, 8, 0, 7, 0, 4, 0, 0, 2 },
@@ -55,7 +55,32 @@ public class MenorCaminho {
 			 { 8, 11, 0, 0, 0, 0, 1, 0, 7 },
 			 { 0, 0, 2, 0, 0, 0, 6, 7, 0 } 
                                 };
-		Dijkstra(grafo, 0);
+		Dijkstra(grafo1, 0);
+
+
+        int grafo2[][] = new int[][] {//priemiro grafo do latex
+            //    a  b  c  d  e  f
+                { 0, 1, 0, 1, 1, 0 }, // a
+                { 0, 0, 1, 1, 1, 0 }, // b
+                { 0, 0, 0, 0, 0, 1 }, // c
+                { 0, 0, 1, 0, 0, 1 }, // d
+                { 0, 0, 1, 0, 0, 1 }, // e
+                { 0, 0, 0, 0, 0, 0 }  // f
+        };
+        V=6;
+		Dijkstra(grafo2, 0);
+
+          int grafo3[][] = new int[][] { 
+                    //    a  b  c  d  e  f
+                        { 0, 1, 1, 1, 0, 0 }, // a
+                        { 0, 0, 0, 0, 1, 1 }, // b
+                        { 0, 0, 0, 1, 0, 0 }, // c
+                        { 0, 0, 0, 0, 1, 0 }, // d
+                        { 0, 0, 0, 0, 0, 1 }, // e
+                        { 0, 0, 0, 0, 0, 0 }  // f
+                };
+		Dijkstra(grafo3, 0);
+
         
         double fimTempo = System.currentTimeMillis();
         double tempoTotal = (fimTempo - comecoTempo) / 1000;
