@@ -16,9 +16,15 @@ public class Fibonacci{
     }
     
     public static void main(String[] args) {
+        double comecoTempo = System.currentTimeMillis();
+
         System.out.println(fibonacci(3));
         System.out.println(fibonacci(5));
         System.out.println(fibonacci(7));
         System.out.println(fibonacci(30));
+        
+        double fimTempo = System.currentTimeMillis();
+        double tempoTotal = (fimTempo - comecoTempo) / 1000;
+        System.out.println("Tempo = " + tempoTotal);
     }
 }
