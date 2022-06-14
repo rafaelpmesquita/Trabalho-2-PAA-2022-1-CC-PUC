@@ -53,7 +53,8 @@ public class KnapSack {
     static int Mochila(int W, Item arr[], int n) {
         // ordena com base no valor por peso
         arr = Sort(arr, arr.length);
-
+        for(Item a : arr)
+        System.out.println(a.getValue());
         // Lista para atravessar os nós e inicializa o nó u com os valores passados no
         // construtor
         List<Node> Q = new ArrayList<Node>();
@@ -125,23 +126,18 @@ public class KnapSack {
 
         int W = 10; // Weight of knapsack
 
-        Item a = new Item(2, 40);
-        Item b = new Item((float) 3.14, 50);
-        Item c = new Item(7, 300);
-        Item d = new Item((float) 9.912, 500);
-        Item e = new Item((float) 1.3123, 312);
-        Item f = new Item((float) 3.131, 231);
-        Item g = new Item((float) 0.91, 3);
-        Item h = new Item((float) 1.98, 100);
-        Item i = new Item((float) 5, 95);
-        Item j = new Item(3, 30);
+        Item a = new Item((float)1.25, 50);
+        Item b = new Item((float)2.5, 60);
+        Item c = new Item(4, 100);
+        Item d = new Item((float) 2.30, 70);
+    
 
-        Item arr[] = { a, b, c, d, e, f, g, h, i, j };
+        Item arr[] = { a, b, c, d};
         int n = arr.length;
         System.out.println("MaxProfit = " + Mochila(W, arr, n));
 
         double fimTempo = System.currentTimeMillis();
-        double tempoTotal = (fimTempo - comecoTempo) / 1000;// TimeUnit.MILLISECONDS.toSeconds(fimTempo - comecoTempo);
+        double tempoTotal = (fimTempo - comecoTempo) / 1000;
         System.out.println("Tempo = " + tempoTotal);
     }
 
