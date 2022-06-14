@@ -8,17 +8,15 @@ class Ciclos_caminhamento {
     static Vector<Integer>[] graph = new Vector[N];//lista de adjacencia para criação do grafo
     static Vector<Integer>[] cycles = new Vector[N];//lista de adjacencia para ciclos encontrados
 
-    static int cyclenumber;
+    static int cyclenumber;//numero de ciclos no grafo
+    static int operations = 0;//numero de operacoes realizadas
 
-
-    static void dfs_cycle(int u, int p, int[] color,
-            int[] mark, int[] par) {
+    static void dfs_cycle(int u, int p, int[] color,int[] mark, int[] par) {
 
         if (color[u] == 2) {
-            return;
-        }
 
-        if (color[u] == 1) {
+        }
+        else if (color[u] == 1) {
 
             cyclenumber++;
             int cur = p;
@@ -28,24 +26,23 @@ class Ciclos_caminhamento {
                 cur = par[cur];
                 mark[cur] = cyclenumber;
             }
-            return;
-        }
-        par[u] = p;
 
-        color[u] = 1;
+        }else {
+            par[u] = p;
+
+            color[u] = 1;
+
+            for (int v : graph[u]) {
 
 
-        for (int v : graph[u]) {
+                if (v != par[u]) {
+                    dfs_cycle(v, u, color, mark, par);
+                }
 
-            // if it has not been visited previously
-            if (v == par[u]) {
-                continue;
             }
-            dfs_cycle(v, u, color, mark, par);
+
+            color[u] = 2;
         }
-
-
-        color[u] = 2;
     }
 
 
@@ -69,12 +66,13 @@ class Ciclos_caminhamento {
             System.out.println();
         }
     }
-    public void printAdjacencyList(Vector<Integer>[] graph){
-        for(g:graph){
+    public static void printAdjacencyList(Vector<Integer>[] graph){
+        for(Vector g:graph){
             System.out.println();
-            for (h:g){
-
+            for (int h:g){
+                System.out.print(h + "-> ");
             }
+            System.out.println("");
         }
     }
 
@@ -86,7 +84,7 @@ class Ciclos_caminhamento {
             cycles[i] = new Vector<>();
         }
 
-        // add edges
+        // Desenhar grafo exemplo
         addEdge(1, 2);
         addEdge(2, 3);
         addEdge(3, 4);
@@ -108,7 +106,7 @@ class Ciclos_caminhamento {
 
         cyclenumber = 0;
         int edges = 13;
-
+        printAdjacencyList(graph);
         dfs_cycle(1, 0, color, mark, par);
 
         printCycles(edges, mark);
