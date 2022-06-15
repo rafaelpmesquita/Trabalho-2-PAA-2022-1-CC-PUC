@@ -67,7 +67,7 @@ public class KnapSack {
         int maxProfit = 0;
         while (!Q.isEmpty()) {
             // desenfila a lista
-            u = Q.get(0); // ta errado aqui, encontrar o metodo certo
+            u = Q.get(0); 
             Q.remove(0);
 
             // seta como 0 caso seja o nó de inicio
@@ -124,7 +124,7 @@ public class KnapSack {
     public static void main(String[] args) {
         double comecoTempo = System.currentTimeMillis();
 
-        int W = 10; // Weight of knapsack
+        int W = 10; // peso da mochila
 
         Item a = new Item((float)1.25, 50);
         Item b = new Item((float)2.5, 60);
