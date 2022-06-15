@@ -1,7 +1,11 @@
 #include<bits/stdc++.h>
+#include <algorithm>
+#include <iostream>
+#include <sstream>
 using namespace std;
 #define p(x) cout << #x << " is " << (x) << " on Line:" << __LINE__ << " \n";
 #define pl(x) for(auto &y:x) cout << y << " "; cout << "\n";
+
 
 void dfs(int src, int parent, vector <int> &stack, int visited_nodes[], vector <vector <int>> &graph){
 	
@@ -28,17 +32,109 @@ void dfs(int src, int parent, vector <int> &stack, int visited_nodes[], vector <
 	visited_nodes[src] = 2; //indicar que o nó já foi analisado. 
 	stack.pop_back(); //Removes the last element in the vector. 
 }
+bool contains(vector<int> graph, int target){
+    for(int index : graph){
+        if(index == target)
+            return true;
+    }
+    return false;
+
+}
+
+bool contains(string prefix, int number){
+    for(int i = 0; i < prefix.length(); i ++){ 
+        char nString = number;
+        char c = '0' + number;
+        //cout << (prefix[i] ==  c) << endl;          
+        if(prefix[i] == c){
+            return true;
+        }
+    }
+    return false;
+}
+void isCycle(vector<int> permutation, int permutation_lenght, int numberOfVertexes, vector <vector <int>> &graph){
+    bool cycle = true;
+    // cout << "permutation" << endl;
+    // for(int i = 0; i < permutation_lenght; i++){
+    //     cout << permutation[i];
+    // }
+
+    for(int i = 0; i < permutation_lenght; i++){ //para cada um dos numeros da permutação        
+        if(i != permutation_lenght - 1){
+            // cout << "im here" <<  " - "  <<  graph[permutation[i]][1] << endl;
+            // for(int index : graph[permutation[i]]){
+            //     cout << index;
+            // }
+            if(!contains(graph[permutation[i]], permutation[i+1])){
+                // for(int index : graph[permutation[i]]){
+                //     cout << index;
+                // }
+                // cout <<endl << "im here2" << endl;
+                cycle = false;
+            } //contains - daquela pos da permutação para o próximo da permutação.
+        }else{
+            //std::find(graph[permutation[permutation_lenght - 1]].begin(), graph[i].end(), permutation[0]) == graph[permutation[i]].end()
+            if(!contains(graph[permutation[permutation_lenght - 1]],  permutation[0])){
+                cycle = false;
+            }  //contains - da última posição da permutação para o início da permutação
+        }
+    }
+    if(cycle){
+            // cout << "permutation lenght" << permutation_lenght << endl;
+            // for(int i = 0; i < permutation_lenght; i++){
+            //     cout << permutation[i] << " ";
+            // }
+            cout << " IS CYCLE";
+            cout << endl;
+        }else{
+            cout << "NOT CYCLE" << endl;
+        }
+
+}
 
 
-void printAllKLengthRec(char set[], string prefix,
-                                    int n, int k)
+void tokenize(std::string const &str, const char* delim,
+            std::vector<std::string> &out)
+{
+    char *token = strtok(const_cast<char*>(str.c_str()), delim);
+    while (token != nullptr)
+    {
+        out.push_back(std::string(token));
+        token = strtok(nullptr, delim);
+    }
+}
+
+void printAllKLengthRec(vector<int> set, string prefix,
+                                    int n, int k, vector<vector<int>> &graph)
 {
      
     // Base case: k is 0,
     // print prefix
-    if (k == 0)
-    {
-        cout << (prefix) << endl;
+    if (k < 0)
+    { 
+        
+        int number;
+        vector<int> permutation;
+        const char* delim = " ";
+        std::vector<std::string> out;
+        tokenize(prefix, delim, out);
+        if(out.size() >= 3){
+            for (auto &s: out) {
+                if(s != "" || s != " "){
+                stringstream ss;
+                ss << s;  
+                ss >> number;                 
+                permutation.emplace_back(number);
+                }
+            }
+            cout << "permutation : ";
+            for(int p : permutation){
+                cout << p << " ";
+            }
+            cout << endl;
+            
+            isCycle(permutation, out.size(),n, graph);
+        }
         return;
     }
  
@@ -47,34 +143,31 @@ void printAllKLengthRec(char set[], string prefix,
     // call for k equals to k-1
     for (int i = 0; i < n; i++)
     {
-        string newPrefix;
-         
+        string newPrefix;         
         // Next character of input added
-
-        
-            newPrefix = prefix + (set[i]);
-
-            
-         
+            std::string s = std::to_string(set[i]);
+            char const *pchar = s.c_str(); 
+            if(!contains(prefix,set[i]))
+                newPrefix = prefix + " " + pchar;
+            else    
+                newPrefix = prefix;        
         // k is decreased, because
         // we have added a new character
-        printAllKLengthRec(set, newPrefix, n, k - 1);
+        printAllKLengthRec(set, newPrefix, n, k - 1, graph);
     }
  
 }
  
-void printAllKLength(char set[], int k,int n)
+void printAllKLength(vector<int> set, int k,int n, vector<vector<int>> &graph)
 {
-    printAllKLengthRec(set, "", n, k);
+    printAllKLengthRec(set, "", n, k, graph);
 }
 
 
-void permutation_vertices(vector<int> &vertices, int numVertexes){
+void permutation_vertices(vector<int> &vertices, int numVertexes, vector<vector<int>> &graph ){
 
-    char * array = (char *) malloc(sizeof(char) * numVertexes + 1);
-    
     for(int i = 3; i<numVertexes; i++){
-        printAllKLengthRec(array,"",numVertexes,i);
+        printAllKLengthRec(vertices,"",numVertexes,i, graph);
     }
 
 }
@@ -83,19 +176,18 @@ void permutation_vertices(vector<int> &vertices, int numVertexes){
 
 
 int main(){
-    vector<int> teste = {65,66,67,68,69};
-    permutation_vertices(teste ,5);
-//   ios_base::sync_with_stdio(false);
-//   cin.tie(nullptr);
-//   int numberOfVertexes,numberOfEdges;
-//   cin >> numberOfVertexes >> numberOfEdges;
-//   vector <vector <int>> graph(numberOfVertexes, vector <int> (0));
-//   for(int i = 0; i < numberOfEdges; ++i){
-// 	  int v1,v2;
-// 	  cin >> v1 >> v2;
-// 	  graph[v1].emplace_back(v2); //appends a new element to the end of the graph (adjacency list).
-// 	  graph[v2].emplace_back(v1); 
-//   }
+    
+  ios_base::sync_with_stdio(false);
+  cin.tie(nullptr);
+  int numberOfVertexes,numberOfEdges;
+  cin >> numberOfVertexes >> numberOfEdges;
+  vector <vector <int>> graph(numberOfVertexes, vector <int> (0));
+  for(int i = 0; i < numberOfEdges; ++i){
+	  int v1,v2;
+	  cin >> v1 >> v2;
+	  graph[v1].emplace_back(v2); //appends a new element to the end of the graph (adjacency list).
+	  graph[v2].emplace_back(v1); 
+  }
 //   int visited_nodes[numberOfVertexes] = {0};
 //   vector <int> stack; //stack auxiliar para manter toda a pilha de vértices visitados. 
 //   for(int i = 0; i < numberOfVertexes; ++i){
@@ -103,6 +195,10 @@ int main(){
 // 		  dfs(i,-1,stack,visited_nodes,graph); // depth-first search - busca em largura.
 // 	  }
 //   }
+   //int permutation[] = {3 ,11, 10, 8 ,5, 4};
+  //  isCycle(permutation, 6, 12, graph);
+    vector<int> teste = {1, 2, 3, 4, 5};
+    permutation_vertices(teste ,5, graph);
  }
 //Sample Input
 
